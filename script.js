@@ -38,6 +38,14 @@ const playerDeterminer = () => {
   }
 };
 
+const disableBoard = (boolean) => {
+  if (boolean === true) {
+    boardButtons.forEach((button) => (button.disabled = true));
+  } else {
+    boardButtons.forEach((button) => (button.disabled = false));
+  }
+};
+
 const determineWinner = () => {
   const keys = Object.keys(buttons);
   const values = [];
@@ -56,30 +64,51 @@ const determineWinner = () => {
   // diagonal wins
   const criss = [values[0], values[4], values[8]];
   const cross = [values[2], values[4], values[6]];
-  // ----------------------------------------------------
-  // const winVault = [
-  //   topRow,
-  //   midRow,
-  //   bottomRow,
-  //   leftCol,
-  //   midCol,
-  //   rightCol,
-  //   criss,
-  //   cross,
-  // ];
-  // winVault.forEach((win) => {
-  //   if (topRow == true) {
-  //     display.innerHTML = 'someone has won';
-  //   }
-  // });
-
-  console.log(topRow);
+  const winConArray = [
+    topRow,
+    midRow,
+    bottomRow,
+    leftCol,
+    midCol,
+    rightCol,
+    criss,
+    cross,
+  ];
+  function checkArray(winCon) {
+    if (false === true) {
+      return 'butthole';
+    } else if (
+      winCon[0] === winCon[1] &&
+      winCon[0] === winCon[2] &&
+      winCon[2] === winCon[1]
+    ) {
+      if (winCon[0] === 'X') {
+        display.innerHTML = "X's has won! Yupee!";
+        disableBoard(true);
+      } else if (winCon[0] === 'O') {
+        display.innerHTML = "O's has won! Booyah!";
+        disableBoard(true);
+      } else {
+        console.log('super massive error has occured');
+      }
+    } else {
+      console.log('error');
+    }
+  }
+  winConArray.forEach((item) => {
+    checkArray(item);
+  });
 };
 // done with the helper functions
 
 boardButtons.forEach((button) => {
   button.addEventListener('click', () => {
-    button.innerHTML = symbolPlacer(playerDeterminer());
+    if (button.innerHTML === '') {
+      button.innerHTML = symbolPlacer(playerDeterminer());
+    } else {
+      display.innerHTML =
+        "Don't try to steal people's squares you vile pumpkin eater!";
+    }
     const id = button.id;
     const keys = Object.keys(buttons);
     keys.forEach((key) => {
@@ -98,4 +127,6 @@ clearButton.addEventListener('click', () => {
   // clear the rest of the object
   const keys = Object.keys(buttons);
   keys.forEach((key) => (buttons[key] = null));
-})``;
+  display.innerHTML = 'No one has won yet';
+  disableBoard(false);
+});
